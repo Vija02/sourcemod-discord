@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const connection = new WebSocket("ws://103.57.72.87:8081");
+const WebSocketClient = require('websocket').client;
+const client = new WebSocketClient();
 
 // Get token from discord panel
 const token = 'MjI0NTM2NDgyNzI2MDE5MDcz.Crb_jg.HUN4dum9fGVS1hajrBQwrQOQgiU';
@@ -24,8 +25,14 @@ bot.on('message', msg => {
       if(suffix === ''){
         msg.channel.sendMessage('Please enter a message!');
       }else{
-        conenction.send(suffix);
-        msg.channel.sendMessage(suffix);
+        if (!connection.connected) {
+          msg.channel.sendMessage('Websocket is not connected');
+
+        }else{
+          connection.sendUTF(suffix);
+          setTimeout(sendNumber, 1000);
+        }
+
       }
     }
   }
@@ -35,18 +42,25 @@ bot.login(token);
 // WEBSOCKET STUFF
 
 // TODO: Add reconnect, probably needed if server is restarted
-connection.onopen = () => {
-	console.log("Connection opened")
-}
-connection.onclose = () => {
-	console.log("Connection closed");
-}
-connection.onerror = () => {
-	console.error("Connection error");
-}
-// connection.onmessage = (event) => {
-    // Get message data using event.data
-// }
+client.on('connectFailed', function(error) {
+    console.log('Connect Error: ' + error.toString());
+});
+
+client.on('connect', function(connection) {
+    console.log('WebSocket Client Connected');
+    connection.on('error', function(error) {
+        console.log("Connection Error: " + error.toString());
+    });
+    connection.on('close', function() {
+        console.log('echo-protocol Connection Closed');
+    });
+    connection.on('message', function(message) {
+        if (message.type === 'utf8') {
+            console.log("Received: '" + message.utf8Data + "'");
+        }
+    });
+});
+client.connect('ws://103.57.72.87:8081', 'echo-protocol');
 
 // SIMPLE WEB PAGE
 const express = require('express');
