@@ -1,26 +1,26 @@
-// import the discord.js module
 const Discord = require('discord.js');
-
-// create an instance of a Discord Client, and call it bot
 const bot = new Discord.Client();
 
-// the token of your bot - https://discordapp.com/developers/applications/me
 const token = 'MjI0NTM2NDgyNzI2MDE5MDcz.Crb_jg.HUN4dum9fGVS1hajrBQwrQOQgiU';
 
-// the ready event is vital, it means that your bot will only start reacting to information
-// from Discord _after_ ready is emitted.
 bot.on('ready', () => {
-  console.log('I am ready!');
+  console.log('Server is ready');
 });
 
-// create an event listener for messages
-bot.on('message', message => {
-  // if the message is "ping",
-  if (message.content === 'ping') {
-    // send "pong" to the same channel.
-    message.channel.sendMessage('pong');
+bot.on('message', msg => {
+  if (msg.author.id != bot.user.id && msg.content[0] === '`') {
+
+    var cmdTxt = msg.content.split(" ")[0].substring(1);
+    var suffix = msg.content.substring(cmdTxt.length+2);
+    if(cmdTxt === 'ping')
+    {
+      msg.channel.sendMessage('pong');
+    }
+    else if(cmdTxt === 'chat')
+    {
+      msg.channel.sendMessage('Hi WithinCoffee~');
+    }
   }
 });
 
-// log our bot in
 bot.login(token);
