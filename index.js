@@ -29,8 +29,7 @@ bot.on('message', msg => {
           msg.channel.sendMessage('Websocket is not connected');
 
         }else{
-          connection.sendUTF(suffix);
-          setTimeout(sendNumber, 1000);
+          sendMsg(suffix);
         }
 
       }
@@ -59,6 +58,10 @@ client.on('connect', function(connection) {
             console.log("Received: '" + message.utf8Data + "'");
         }
     });
+    function sendMsg(suffix) {
+      connection.sendUTF(suffix);
+      setTimeout(sendMsg, 1000);
+    }
 });
 client.connect('ws://103.57.72.87:8081', 'echo-protocol');
 
