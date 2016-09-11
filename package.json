@@ -2,6 +2,9 @@
   "name": "sourcemod-discord",
   "version": "1.0.0",
   "description": "Sourcemod-discord-hook",
+  "engines": {
+    "node": "6.0.0"
+  },
   "main": "index.js",
   "dependencies": {
     "discord.js": "^9.1.1"
