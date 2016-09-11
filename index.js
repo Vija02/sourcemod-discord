@@ -3,6 +3,8 @@ const bot = new Discord.Client();
 const WebSocketClient = require('websocket').client;
 const client = new WebSocketClient();
 
+var conn;
+
 // Get token from discord panel
 const token = 'MjI0NTM2NDgyNzI2MDE5MDcz.Crb_jg.HUN4dum9fGVS1hajrBQwrQOQgiU';
 
@@ -25,11 +27,10 @@ bot.on('message', msg => {
       if(suffix === ''){
         msg.channel.sendMessage('Please enter a message!');
       }else{
-        if (!connection.connected) {
+        if (!conn || !conn.connected) {
           msg.channel.sendMessage('Websocket is not connected');
-
         }else{
-          sendMsg(suffix);
+          conn.sendUTF(suffix);
         }
 
       }
@@ -46,6 +47,7 @@ client.on('connectFailed', function(error) {
 });
 
 client.on('connect', function(connection) {
+    conn = connection;
     console.log('WebSocket Client Connected');
     connection.on('error', function(error) {
         console.log("Connection Error: " + error.toString());
@@ -58,10 +60,6 @@ client.on('connect', function(connection) {
             console.log("Received: '" + message.utf8Data + "'");
         }
     });
-    function sendMsg(suffix) {
-      connection.sendUTF(suffix);
-      setTimeout(sendMsg, 1000);
-    }
 });
 client.connect('ws://103.57.72.87:8081', 'echo-protocol');
 
