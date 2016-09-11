@@ -16,11 +16,21 @@ bot.on('message', msg => {
     {
       msg.channel.sendMessage('pong');
     }
-    else if(cmdTxt === 'chat')
+    else if(cmdTxt === 'mirror')
     {
-      msg.channel.sendMessage('Hi WithinCoffee~');
+      msg.channel.sendMessage(suffix);
     }
   }
 });
 
 bot.login(token);
+
+// SIMPLE WEB PAGE
+var express = require('express');
+var app = express();
+
+app.get('*', function (req, res) {
+  res.send('This is sourcemod-discord webpage!');
+});
+
+app.listen(process.env.PORT || 3000);
