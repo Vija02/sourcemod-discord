@@ -6,9 +6,7 @@ const client = new WebSocketClient();
 var conn;
 
 // Get token from discord panel
-const token = 'MjI0NTM2NDgyNzI2MDE5MDcz.Crb_jg.HUN4dum9fGVS1hajrBQwrQOQgiU';
-
-// TODO: Keep alive to avoid heroku server from sleeping (maybe)
+const token = '<Your Token>';
 
 bot.on('ready', () => {
   console.log('Server is ready');
@@ -61,7 +59,7 @@ client.on('connect', function(connection) {
         }
     });
 });
-client.connect('ws://103.57.72.87:8081', 'echo-protocol');
+client.connect('ws://x.x.x.x', 'echo-protocol');
 
 // SIMPLE WEB PAGE
 const express = require('express');

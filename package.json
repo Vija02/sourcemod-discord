@@ -16,6 +16,6 @@
     "start": "node index.js",
     "test": "test"
   },
-  "author": "Vija02",
+  "author": "Michael Salim",
   "license": "MIT"
 }
